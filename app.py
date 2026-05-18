@@ -304,7 +304,7 @@ def load_feature_matrix():
     df = clean_dataframe(df, stats)
 
     if "deposit" in df.columns:
-        y = df["deposit"].replace({"yes": 1, "no": 0})
+        y = df["deposit"].map({"yes": 1, "no": 0})
         X = df.drop(columns=["deposit"])
     else:
         y = None
@@ -376,7 +376,7 @@ def load_metrics():
     if "deposit" not in df.columns:
         return None
 
-    y = df["deposit"].replace({"yes": 1, "no": 0})
+    y = df["deposit"].map({"yes": 1, "no": 0})
     X = df.drop(columns=["deposit"])
     X = pd.get_dummies(X, drop_first=True)
     X = align_features(X, model)
@@ -956,7 +956,7 @@ with tabs[2]:
 
         if y is not None:
             df_temp = df_raw.copy()
-            df_temp["deposit"] = df_temp["deposit"].replace({"yes": 1, "no": 0})
+            df_temp["deposit"] = df_temp["deposit"].map({"yes": 1, "no": 0})
             rate_by_month = df_temp.groupby("month")["deposit"].mean().reindex(
                 ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
             )
